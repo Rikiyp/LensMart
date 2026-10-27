@@ -218,6 +218,3 @@ LensMart/
 
 ---
 
-<div align="center">
-  <sub>Dikembangkan dengan ❤️ sebagai proyek portofolio Full-Stack Web Development.</sub>
-</div>
