@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-paper-100 text-ink-950 antialiased;
+        font-feature-settings: 'ss01' on, 'cv11' on;
+    }
+
+    ::selection {
+        @apply bg-amber-300 text-ink-950;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    h1,
+    h2,
+    h3 {
+        text-wrap: balance;
+    }
+
+    .font-display {
+        font-variation-settings: 'SOFT' 0, 'WONK' 1, 'opsz' 144;
+    }
+
+    .tabular {
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[13px] font-semibold tracking-tight transition duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink-950 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-100 disabled:cursor-not-allowed disabled:opacity-45;
+    }
+
+    .btn-primary {
+        @apply btn bg-ink-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] hover:bg-ink-900 active:translate-y-px;
+    }
+
+    .btn-accent {
+        @apply btn bg-amber-400 text-ink-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] hover:bg-amber-300 active:translate-y-px;
+    }
+
+    .btn-outline {
+        @apply btn border border-paper-400 bg-white text-ink-950 hover:border-ink-950/30 hover:bg-paper-50;
+    }
+
+    .btn-ghost {
+        @apply btn text-ink-700 hover:bg-ink-950/5 hover:text-ink-950;
+    }
+
+    .btn-danger {
+        @apply btn bg-rose-700 text-white hover:bg-rose-600;
+    }
+
+    .btn-sm {
+        @apply px-3.5 py-2 text-[12px];
+    }
+
+    .btn-icon {
+        @apply inline-flex h-9 w-9 items-center justify-center rounded-lg border border-paper-300 bg-white text-ink-700 transition hover:border-ink-950/25 hover:text-ink-950;
+    }
+
+    .card {
+        @apply rounded-xl border border-paper-300 bg-white;
+    }
+
+    .card-flat {
+        @apply rounded-xl border border-paper-300 bg-white;
+    }
+
+    .label {
+        @apply mb-1.5 block text-[12px] font-semibold text-ink-800;
+    }
+
+    .input {
+        @apply block w-full rounded-lg border-paper-400 bg-white px-3.5 py-2.5 text-[13px] text-ink-950 transition placeholder:text-ink-400 focus:border-ink-950/40 focus:ring-2 focus:ring-amber-300/60;
+    }
+
+    .select {
+        @apply input pr-9;
+    }
+
+    .textarea {
+        @apply input min-h-[110px] resize-y;
+    }
+
+    .badge {
+        @apply inline-flex items-center gap-1 rounded-md px-2 py-[3px] text-[10.5px] font-semibold uppercase tracking-[0.08em] ring-1 ring-inset;
+    }
+
+    .table-base {
+        @apply min-w-full divide-y divide-paper-300 text-[13px];
+    }
+
+    .table-base thead th {
+        @apply whitespace-nowrap bg-paper-50 px-4 py-3 text-left text-[10.5px] font-semibold uppercase tracking-[0.14em] text-ink-500;
+    }
+
+    .table-base tbody td {
+        @apply px-4 py-3.5 align-middle text-ink-700;
+    }
+
+    .table-base tbody tr {
+        @apply transition hover:bg-paper-50;
+    }
+
+    .link {
+        @apply font-semibold text-ink-950 underline decoration-amber-500 decoration-2 underline-offset-4 transition hover:text-amber-700;
+    }
+
+    .section-eyebrow {
+        @apply flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-500;
+    }
+
+    .section-eyebrow::before {
+        content: '';
+        @apply h-px w-6 bg-amber-500;
+    }
+
+    .section-title {
+        @apply mt-3 font-display text-[32px] font-semibold leading-[1.05] tracking-[-0.025em] text-ink-950 sm:text-[40px];
+    }
+
+    .stat-card {
+        @apply card flex flex-col gap-2 p-5;
+    }
+
+    .sidebar-link {
+        @apply flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-[13px] font-medium text-ink-300 transition hover:bg-white/5 hover:text-white;
+    }
+
+    .sidebar-link-active {
+        @apply bg-white/10 text-white shadow-sm;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .brand-mark {
+        height: var(--brand-h, 20px);
+        width: auto;
+        max-width: 100%;
+        filter: brightness(0);
+        opacity: 0.48;
+        transition: opacity 180ms ease;
+    }
+
+    .group:hover .brand-mark,
+    .group:focus-visible .brand-mark {
+        opacity: 0.92;
+    }
+
+    .brand-marquee {
+        --brand-gap: 2.25rem;
+        --brand-fade: 2.5rem;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--brand-fade), #000 calc(100% - var(--brand-fade)), transparent);
+        mask-image: linear-gradient(to right, transparent, #000 var(--brand-fade), #000 calc(100% - var(--brand-fade)), transparent);
+    }
+
+    .brand-marquee-track {
+        display: flex;
+        width: max-content;
+        animation: brand-marquee 36s linear infinite;
+        will-change: transform;
+    }
+
+    .brand-marquee-group {
+        display: flex;
+        align-items: center;
+        gap: var(--brand-gap);
+        padding-right: var(--brand-gap);
+    }
+
+    .brand-marquee:hover .brand-marquee-track,
+    .brand-marquee:focus-within .brand-marquee-track {
+        animation-play-state: paused;
+    }
+
+    @media (max-width: 639px) {
+        .brand-marquee {
+            --brand-gap: 1.5rem;
+            --brand-fade: 2rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .brand-marquee {
+            overflow-x: auto;
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+
+        .brand-marquee-track {
+            animation: none;
+        }
+
+        .brand-marquee-group[aria-hidden='true'] {
+            display: none;
+        }
+    }
+
+    .field-label {
+        @apply text-[10.5px] font-semibold uppercase tracking-[0.14em] text-ink-500;
+    }
+
+    .hairline {
+        @apply border-t border-paper-300;
+    }
+
+    .nav-link {
+        @apply relative flex h-16 items-center text-[13px] font-medium text-ink-600 transition hover:text-ink-950;
+    }
+
+    .nav-link-active {
+        @apply text-ink-950;
+    }
+
+    .nav-link-active::after {
+        content: '';
+        @apply absolute inset-x-0 bottom-0 h-[2px] bg-ink-950;
+    }
+}
+
+@keyframes brand-marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}

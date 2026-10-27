@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="LensMart">
+  <defs>
+    <linearGradient id="lm-badge" x1="6" y1="4" x2="42" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCD34D" />
+      <stop offset=".55" stop-color="#FBBF24" />
+      <stop offset="1" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="14" fill="url(#lm-badge)" />
+  <circle cx="24" cy="24" r="13.25" fill="none" stroke="#0B1220" stroke-width="1.8" opacity=".9" />
+  <g stroke="#0B1220" stroke-width="2.1" stroke-linecap="round" opacity=".95">
+    <path d="M37.25 24 27.38 29.85" />
+    <path d="M30.62 35.47 20.62 29.85" />
+    <path d="M17.38 35.47 17.25 24" />
+    <path d="M10.75 24 20.62 18.15" />
+    <path d="M17.37 12.53 27.38 18.15" />
+    <path d="M30.62 12.53 30.75 24" />
+  </g>
+  <path d="M30.75 24 27.38 18.15 20.62 18.15 17.25 24 20.62 29.85 27.38 29.85Z" fill="none" stroke="#0B1220" stroke-width="1.15" stroke-linejoin="round" opacity=".3" />
+  <path d="M14.4 17.6a13.1 13.1 0 0 1 7.5-5.7" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity=".45" />
+</svg>
