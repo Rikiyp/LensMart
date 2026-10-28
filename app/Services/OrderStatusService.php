@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\OrderStatus;
 use App\Enums\PayoutStatus;
 use App\Enums\ProductStatus;
+use App\Events\OrderStatusUpdated as OrderStatusUpdatedEvent;
 use App\Models\Order;
 use App\Models\Payout;
 use App\Models\Product;
@@ -32,6 +33,7 @@ class OrderStatusService
                 throw ValidationException::withMessages(['status' => 'Pesanan belum dibayar.']);
             }
 
+            $oldStatus = $order->status->value;
             $next = $order->status->next();
 
             if (! $next || $next === OrderStatus::Completed) {
@@ -58,6 +60,21 @@ class OrderStatusService
 
             $order->customer->notify(new OrderStatusUpdated($order, $note));
 
+            // Broadcast real-time event
+            OrderStatusUpdatedEvent::dispatch($order, $oldStatus, $next->value);
+
+            // Database notification for customer
+            $order->customer->notifications()->create([
+                'type' => 'order_status_updated',
+                'data' => [
+                    'order_id' => $order->id,
+                    'order_number' => $order->order_number,
+                    'old_status' => $oldStatus,
+                    'new_status' => $next->value,
+                    'status_label' => $next->label(),
+                ],
+            ]);
+
             return $order;
         });
     }
@@ -76,6 +93,8 @@ class OrderStatusService
                 throw ValidationException::withMessages(['status' => 'Pesanan belum dikirim.']);
             }
 
+            $oldStatus = $order->status->value;
+
             $order->update([
                 'status' => OrderStatus::Completed,
                 'completed_at' => now(),
@@ -91,7 +110,20 @@ class OrderStatusService
 
             if ($order->store?->user) {
                 $order->store->user->notify(new OrderStatusUpdated($order, 'Pesanan telah diterima pelanggan.'));
+                
+                // Database notification for partner
+                $order->store->user->notifications()->create([
+                    'type' => 'order_completed',
+                    'data' => [
+                        'order_id' => $order->id,
+                        'order_number' => $order->order_number,
+                        'message' => "Pesanan {$order->order_number} telah diterima pelanggan",
+                    ],
+                ]);
             }
+
+            // Broadcast real-time event
+            OrderStatusUpdatedEvent::dispatch($order, $oldStatus, OrderStatus::Completed->value);
 
             return $order;
         });
@@ -112,6 +144,8 @@ class OrderStatusService
                 ]);
             }
 
+            $oldStatus = $order->status->value;
+
             $this->restoreStock($order);
 
             $order->update(['status' => OrderStatus::Cancelled]);
@@ -126,6 +160,33 @@ class OrderStatusService
 
             if ($order->store?->user && $order->store->user->id !== $actor->id) {
                 $order->store->user->notify(new OrderStatusUpdated($order, $note));
+            }
+
+            // Broadcast real-time event
+            OrderStatusUpdatedEvent::dispatch($order, $oldStatus, OrderStatus::Cancelled->value);
+
+            // Database notification for customer
+            $order->customer->notifications()->create([
+                'type' => 'order_cancelled',
+                'data' => [
+                    'order_id' => $order->id,
+                    'order_number' => $order->order_number,
+                    'message' => "Pesanan {$order->order_number} dibatalkan",
+                    'note' => $note,
+                ],
+            ]);
+
+            // Database notification for partner
+            if ($order->store?->user && $order->store->user->id !== $actor->id) {
+                $order->store->user->notifications()->create([
+                    'type' => 'order_cancelled',
+                    'data' => [
+                        'order_id' => $order->id,
+                        'order_number' => $order->order_number,
+                        'message' => "Pesanan {$order->order_number} dibatalkan oleh " . ($actor->isCustomer() ? 'pelanggan' : 'partner'),
+                        'note' => $note,
+                    ],
+                ]);
             }
 
             return $order;

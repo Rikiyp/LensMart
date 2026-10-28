@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
+use App\Http\Controllers\Partner\AnalyticsController as PartnerAnalyticsController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -69,6 +71,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifikasi/unread', [NotificationController::class, 'unreadCount'])->name('notifications.unread');
     Route::post('/notifikasi/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
     Route::get('/notifikasi/{id}', [NotificationController::class, 'read'])->name('notifications.read');
+
+    // Analytics API
+    Route::get('/api/analytics/dashboard', [\App\Http\Controllers\Api\AnalyticsController::class, 'dashboard'])->name('api.analytics.dashboard');
+    Route::get('/api/analytics/revenue', [\App\Http\Controllers\Api\AnalyticsController::class, 'revenue'])->name('api.analytics.revenue');
+    Route::get('/api/analytics/top-products', [\App\Http\Controllers\Api\AnalyticsController::class, 'topProducts'])->name('api.analytics.top-products');
+    Route::get('/api/analytics/order-status', [\App\Http\Controllers\Api\AnalyticsController::class, 'orderStatus'])->name('api.analytics.order-status');
+    Route::get('/api/analytics/categories', [\App\Http\Controllers\Api\AnalyticsController::class, 'categories'])->name('api.analytics.categories');
+    Route::get('/api/analytics/hours', [\App\Http\Controllers\Api\AnalyticsController::class, 'hours'])->name('api.analytics.hours');
 });
 
 /*
@@ -121,6 +131,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 */
 Route::middleware(['auth', 'role:partner'])->prefix('partner')->name('partner.')->group(function () {
     Route::get('/dashboard', PartnerDashboardController::class)->name('dashboard');
+    Route::get('/analitik', [PartnerAnalyticsController::class, 'index'])->name('analytics');
 
     Route::get('/toko', [PartnerStoreController::class, 'edit'])->name('store.edit');
     Route::put('/toko', [PartnerStoreController::class, 'update'])->name('store.update');
@@ -150,6 +161,7 @@ Route::middleware(['auth', 'role:partner'])->prefix('partner')->name('partner.')
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
+    Route::get('/analitik', [AdminAnalyticsController::class, 'index'])->name('analytics');
 
     Route::get('/akun', [UserController::class, 'index'])->name('users.index');
     Route::patch('/akun/{user}/status', [UserController::class, 'toggle'])->name('users.toggle');

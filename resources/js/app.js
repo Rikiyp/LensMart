@@ -1,6 +1,9 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
+import Chart from 'chart.js/auto';
+
+window.Chart = Chart;
 
 Alpine.directive('confirm', (el, { expression }, { evaluate }) => {
     el.addEventListener('submit', (event) => {

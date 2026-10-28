@@ -17,6 +17,7 @@
                 ['route' => 'admin.users.index', 'pattern' => 'admin.users.*', 'label' => 'Akun', 'icon' => 'users'],
             ],
             'Keuangan & Moderasi' => [
+                ['route' => 'admin.analytics', 'pattern' => 'admin.analytics', 'label' => 'Analitik', 'icon' => 'chart-line'],
                 ['route' => 'admin.reports.index', 'pattern' => 'admin.reports.*', 'label' => 'Laporan', 'icon' => 'chart-bar'],
                 ['route' => 'admin.payouts.index', 'pattern' => 'admin.payouts.*', 'label' => 'Pencairan', 'icon' => 'wallet'],
                 ['route' => 'admin.reviews.index', 'pattern' => 'admin.reviews.*', 'label' => 'Ulasan', 'icon' => 'chat'],
@@ -36,6 +37,7 @@
                 ['route' => 'partner.products.index', 'pattern' => 'partner.products.*', 'label' => 'Produk', 'icon' => 'cube'],
             ],
             'Operasional' => [
+                ['route' => 'partner.analytics', 'pattern' => 'partner.analytics', 'label' => 'Analitik', 'icon' => 'chart-line'],
                 ['route' => 'partner.reviews.index', 'pattern' => 'partner.reviews.*', 'label' => 'Ulasan', 'icon' => 'chat'],
                 ['route' => 'partner.finance.index', 'pattern' => 'partner.finance.*', 'label' => 'Keuangan', 'icon' => 'chart-bar'],
                 ['route' => 'partner.store.edit', 'pattern' => 'partner.store.*', 'label' => 'Profil Toko', 'icon' => 'store'],
